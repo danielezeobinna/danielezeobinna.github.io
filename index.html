@@ -95,7 +95,8 @@
         .nav-avatar {
           width: 36px; height: 36px;
           border-radius: 50%;
-          object-fit: cover;
+          overflow: hidden;
+          position: relative;
           opacity: 0;
           transform: scale(0.6);
           transition: opacity 0.4s ease, transform 0.4s ease;
@@ -161,13 +162,21 @@
           z-index: -1;
         }
 
+        .hero-avatar-mask {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          overflow: hidden;
+          position: relative;
+          background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        }
+
         .hero-avatar-img {
           width: 100%; height: 100%;
-          border-radius: 50%;
           object-fit: cover;
           display: block;
-          /* Matching gradient background for the transparent PNG */
-          background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+          transform: scale(0.75);
+          transform-origin: 50% 73%;
         }
 
         /* Shrinking state triggered by JS */
@@ -486,6 +495,19 @@
           display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
         }
 
+        /* ── visually hidden for LLMs & screen readers ── */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
         /* ── footer ── */
         footer {
           text-align: center;
@@ -533,14 +555,15 @@
 <nav>
     <!-- Nav avatar slot: hidden until user scrolls -->
     <div class="nav-avatar-slot">
-        <img
-                id="navAvatar"
-                class="nav-avatar"
-                src="Avatar.png"
-                alt="Daniel Eze"
-                style="background: radial-gradient(135deg, rgba(61,220,132,0.22) 0%, rgba(108,99,255,0.35) 100%);"
-        />
+        <div id="navAvatar" class="nav-avatar">
+            <img
+                    class="hero-avatar-img"
+                    src="Avatar.png"
+                    alt="Daniel Eze"
+            />
+        </div>
     </div>
+
     <ul class="nav-links">
         <li><a href="#apps">Apps</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -555,12 +578,14 @@
     <!-- Hero Avatar — large, prominent, fades out on scroll -->
     <div class="hero-avatar-wrap">
         <div class="hero-avatar-ring" id="heroAvatarRing">
-            <img
-                    class="hero-avatar-img"
-                    id="heroAvatarImg"
-                    src="Avatar.png"
-                    alt="Daniel Eze"
-            />
+            <div class="hero-avatar-mask">
+                <img
+                        class="hero-avatar-img"
+                        id="heroAvatarImg"
+                        src="Avatar.png"
+                        alt="Daniel Eze"
+                />
+            </div>
         </div>
     </div>
 
@@ -770,6 +795,16 @@
 
 <!-- CONTACT -->
 <section id="contact">
+    <!-- Hidden text block explicitly for LLMs, parsers, and screen readers -->
+    <div class="sr-only">
+        <h2>Contact Information</h2>
+        <p>Name: Daniel Eze</p>
+        <p>Role: Android Developer</p>
+        <p>Email: danielezeobinna@yahoo.com</p>
+        <p>GitHub: https://github.com/danielezeobinna</p>
+        <p>LinkedIn: https://www.linkedin.com/in/danielezeobinna</p>
+    </div>
+
     <div class="contact-inner">
         <p class="section-label reveal">Get in Touch</p>
         <h2 class="reveal">Let's Work Together</h2>
